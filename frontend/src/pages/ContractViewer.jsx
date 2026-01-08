@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaSpinner, FaArrowLeft, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import NoteEditor from '../components/NoteEditor';
 
 const ContractViewer = () => {
     const { id } = useParams();
@@ -97,7 +98,7 @@ const ContractViewer = () => {
                                         backgroundColor: clause.riskLevel === 'high' ? 'rgba(239, 68, 68, 0.1)' :
                                             clause.riskLevel === 'medium' ? 'rgba(245, 158, 11, 0.1)' : 'transparent',
                                         borderLeft: `4px solid ${clause.riskLevel === 'high' ? 'var(--color-danger)' :
-                                                clause.riskLevel === 'medium' ? 'var(--color-warning)' : 'var(--color-success)'
+                                            clause.riskLevel === 'medium' ? 'var(--color-warning)' : 'var(--color-success)'
                                             }`
                                     }}>
                                         <p>{clause.text}</p>
@@ -124,37 +125,50 @@ const ContractViewer = () => {
                             </div>
 
                             <div>
-                                <h4 style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem' }}>Risk Assessment</h4>
+                                <h4 style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem' }}>Risk Assessment & Notes</h4>
                                 {contract.clauses?.filter(c => c.riskLevel !== 'low').length === 0 && (
-                                    <div style={{ padding: '1rem', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderRadius: '8px', display: 'flex', gap: '1rem' }}>
+                                    <div style={{ padding: '1rem', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderRadius: '8px', display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
                                         <FaCheckCircle style={{ color: 'var(--color-success)' }} />
                                         <p style={{ fontSize: '0.9rem' }}>No significant risks detected.</p>
                                     </div>
                                 )}
 
-                                {contract.clauses?.filter(c => c.riskLevel !== 'low').map((clause, idx) => (
+                                {contract.clauses?.map((clause, idx) => (
                                     <div key={idx} style={{
                                         marginBottom: '1rem',
                                         padding: '1rem',
                                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
                                         borderRadius: '8px',
-                                        border: `1px solid ${clause.riskLevel === 'high' ? 'var(--color-danger)' : 'var(--color-warning)'}`
+                                        border: `1px solid ${clause.riskLevel === 'high' ? 'var(--color-danger)' :
+                                            clause.riskLevel === 'medium' ? 'var(--color-warning)' :
+                                                clause.riskLevel === 'low' ? 'var(--color-success)' : '#444'}`
                                     }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                                            <FaExclamationTriangle style={{ color: clause.riskLevel === 'high' ? 'var(--color-danger)' : 'var(--color-warning)' }} />
+                                            <FaExclamationTriangle style={{
+                                                color: clause.riskLevel === 'high' ? 'var(--color-danger)' :
+                                                    clause.riskLevel === 'medium' ? 'var(--color-warning)' : 'var(--color-success)'
+                                            }} />
                                             <span style={{
                                                 fontWeight: 'bold',
                                                 fontSize: '0.85rem',
-                                                color: clause.riskLevel === 'high' ? 'var(--color-danger)' : 'var(--color-warning)',
+                                                color: clause.riskLevel === 'high' ? 'var(--color-danger)' :
+                                                    clause.riskLevel === 'medium' ? 'var(--color-warning)' : 'var(--color-success)',
                                                 textTransform: 'uppercase'
                                             }}>
                                                 {clause.riskLevel} Risk
                                             </span>
                                         </div>
                                         <p style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>{clause.riskReason}</p>
-                                        <div style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', fontStyle: 'italic', borderTop: '1px solid #444', paddingTop: '0.5rem' }}>
+                                        <div style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', fontStyle: 'italic', borderTop: '1px solid #444', paddingTop: '0.5rem', marginBottom: '0.5rem' }}>
                                             "{clause.text.substring(0, 100)}..."
                                         </div>
+
+                                        {/* Draft.js Note Editor */}
+                                        <NoteEditor
+                                            contractId={id}
+                                            clauseId={clause._id}
+                                            initialNote={clause.notes}
+                                        />
                                     </div>
                                 ))}
                             </div>

@@ -128,8 +128,36 @@ const getContract = async (req, res) => {
     }
 };
 
+// @desc    Update a note for a specific clause
+// @route   PUT /api/contracts/:id/clauses/:clauseId
+// @access  Private
+const updateClauseNote = async (req, res) => {
+    const { note } = req.body; // note is expected to be a stringified JSON from Draft.js
+
+    try {
+        const contract = await Contract.findOne({ _id: req.params.id, userId: req.user.id });
+        if (!contract) {
+            return res.status(404).json({ message: 'Contract not found' });
+        }
+
+        const clause = contract.clauses.id(req.params.clauseId);
+        if (!clause) {
+            return res.status(404).json({ message: 'Clause not found' });
+        }
+
+        clause.notes = note;
+        await contract.save();
+
+        res.json(clause);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
 module.exports = {
     uploadContract,
     getContracts,
-    getContract
+    getContract,
+    updateClauseNote
 };
