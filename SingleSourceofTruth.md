@@ -101,7 +101,7 @@ AI processing is **asynchronous** and results are persisted.
 
 ### 4.3 AI-Based Contract Analysis
 
-Using **OpenAI API**, the system performs:
+Using **Google Gemini API**, the system performs:
 
 #### Clause Extraction
 
@@ -246,7 +246,7 @@ This page is the user’s **primary workspace**.
 
 ### AI Layer
 
-* OpenAI API
+* Google Gemini API
 * Low temperature (deterministic)
 * Structured JSON output only
 
@@ -258,7 +258,7 @@ This page is the user’s **primary workspace**.
 2. User uploads contract
 3. Backend stores file in GridFS
 4. Text is extracted
-5. Text sent to OpenAI API
+5. Text sent to Gemini API
 6. AI returns clauses, risks, summary
 7. Results saved in MongoDB
 8. Frontend displays annotated contract

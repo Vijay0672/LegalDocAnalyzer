@@ -1,0 +1,29 @@
+# Dependencies
+**/node_modules/
+
+# Environment Variables (CRITICAL)
+**/.env
+
+# Build Outputs
+**/dist/
+**/build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Temporary/Test Files
+backend/test_gemini_key.js
+backend/test_gemini_raw.js
+backend/test_contract.pdf
+backend/available_models.txt
+backend/list_models.js
+backend/verify_ai_service.js
+backend/test_upload_debug.js
+backend/test_pdf_import.js
