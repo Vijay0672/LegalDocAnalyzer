@@ -1,4 +1,4 @@
-# 📄 LegalDocAnalyzer - AI-Powered Contract Analysis
+# 📄 DocAnalyze - AI-Powered Contract Analysis
 
 ## 🚀 Overview
 
